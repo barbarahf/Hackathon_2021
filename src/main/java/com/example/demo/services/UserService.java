@@ -52,7 +52,6 @@ public class UserService implements UserDetailsService {
         String encodePassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setRole(Role.USER);
         user.setPassword(encodePassword);
-        System.out.println(userRepository.save(user));
         return saveToken(user);
     }
 

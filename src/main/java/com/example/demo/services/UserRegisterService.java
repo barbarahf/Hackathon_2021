@@ -19,10 +19,8 @@ public class UserRegisterService {
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
 
-    //Email sender
-    //Confirmation token
-    @SneakyThrows
-    public String register(User user) {
+
+    public String register(User user) throws EmailIsNotValid {
 
         boolean isValidEmail = emailValidator.test(user.getEmail());
         if (!isValidEmail) {
@@ -58,7 +56,7 @@ public class UserRegisterService {
         if (expiredAt.isBefore(LocalDateTime.now())) {
             throw new IllegalStateException("token expired");
         }
-        //Todos o ninguno
+
         confirmationTokenService.setConfirmedAt(token);
         userService.enableUser(confirmationToken.getUser().getEmail());
         return "confirmed";

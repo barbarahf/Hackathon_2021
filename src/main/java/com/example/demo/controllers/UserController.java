@@ -1,10 +1,13 @@
 package com.example.demo.controllers;
 
 import com.example.demo.entities.User;
+import com.example.demo.exceptions.EmailIsNotValid;
 import com.example.demo.services.UserRegisterService;
 import com.example.demo.services.UserService;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,16 +58,22 @@ public class UserController {
      * @return the registered user
      */
     @PostMapping("/sign-up/user")
-    public String registerUser(@RequestBody User user) {
-
-        return userRegisterService.register(user);
-
+    @SneakyThrows
+    public HttpStatus registerUser(@RequestBody User user) {
+        try {
+            userRegisterService.register(user);
+        } catch (Exception e) {
+            return HttpStatus.CONFLICT;
+        }
+        return HttpStatus.CREATED;
     }
 
     @GetMapping(path = "/sign-up/user/confirm")
     public String confirm(@RequestParam("token") String token) {
         return userRegisterService.confirmToken(token);
     }
+
+
     /*
     ST7: POST /github/:username
 Descripción: Crea un GithubUserl, lo conecta con un usuario previamante creado a través de su id y guarda el User

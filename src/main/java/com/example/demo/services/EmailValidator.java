@@ -1,16 +1,15 @@
 package com.example.demo.services;
 
-import com.example.demo.pojo.MailExists;
-import lombok.SneakyThrows;
+import com.example.demo.dto.MailExists;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.function.Predicate;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 public class EmailValidator implements Predicate<String> {
+    //TODO: REFACTOR
+    //TODO:TASK3: Generar un servicio que utilice la API de Mailboxlayer y permita para verificar el correo de un usuario, tanto si tiene el formato de correo cómo si tiene un servidor existente asignado al dominio utilizado.
 
     @Override
     public boolean test(String email) {
