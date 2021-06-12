@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.entities.User;
+import com.example.demo.services.UserRegisterService;
 import com.example.demo.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     UserService userService;
+    UserRegisterService userRegisterService;
 
     /**
      * @return Get the entire object of a user
@@ -55,8 +57,13 @@ public class UserController {
     @PostMapping("/sign-up/user")
     public String registerUser(@RequestBody User user) {
 
-        //return registrationService.register(user);
-        return user.toString();
+        return userRegisterService.register(user);
+
+    }
+
+    @GetMapping(path = "/sign-up/user/confirm")
+    public String confirm(@RequestParam("token") String token) {
+        return userRegisterService.confirmToken(token);
     }
     /*
     ST7: POST /github/:username
